@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  # ============================================================
+  # Web UI (Flask + templates + AI Assistant)
+  # ============================================================
+  webapp:
+    build: .
+    container_name: ecommerce-webapp
+    ports:
+      - "5001:5001"
+    volumes:
+      # Persistent data
+      - ./database:/app/database
+      - ./dashboard:/app/dashboard
+      - ./ml/models:/app/ml/models
+      # Config
+      - ./.env:/app/.env:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LLM_PROVIDER=groq
+      - GROQ_MODEL=${GROQ_MODEL:-openai/gpt-oss-120b}
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - ecommerce-net
+
+  # ============================================================
+  # REST API (port 5000)
+  # ============================================================
+  api:
+    build: .
+    container_name: ecommerce-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./database:/app/database
+      - ./ml/models:/app/ml/models
+      - ./.env:/app/.env:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    command: python -m api.app
+    restart: unless-stopped
+    networks:
+      - ecommerce-net
+
+  # ============================================================
+  # ETL (run manually with: docker-compose --profile etl up etl)
+  # ============================================================
+  etl:
+    build: .
+    container_name: ecommerce-etl
+    volumes:
+      - ./data:/app/data
+      - ./database:/app/database
+    command: python main.py
+    profiles:
+      - etl
+    networks:
+      - ecommerce-net
+
+networks:
+  ecommerce-net:
+    driver: bridge

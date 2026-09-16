@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+{% block title %}Home — Smart E-Commerce Intelligence{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fa-solid fa-star"></i> End-to-End Data Intelligence Platform
+        </div>
+        <h1 class="hero-title">
+            🛒 Smart E-Commerce <span class="gradient-text">Intelligence</span>
+        </h1>
+        <p class="hero-subtitle">
+            Une plateforme complète qui transforme <strong>100K+ transactions</strong> en
+            insights business actionnables, grâce à l'ETL, le Machine Learning et l'IA générative.
+        </p>
+        <div class="hero-actions">
+            <a href="/" class="btn btn-primary">
+                <i class="fa-solid fa-chart-pie"></i> Voir le Dashboard
+            </a>
+            <a href="/assistant" class="btn btn-secondary">
+                <i class="fa-solid fa-robot"></i> Essayer l'IA
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- QUICK STATS -->
+<section class="section">
+    <div class="stats-grid">
+        <div class="stat-card stat-1">
+            <div class="stat-icon"><i class="fa-solid fa-database"></i></div>
+            <div class="stat-value">112,650</div>
+            <div class="stat-label">Transactions</div>
+        </div>
+        <div class="stat-card stat-2">
+            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-value">95,420</div>
+            <div class="stat-label">Clients uniques</div>
+        </div>
+        <div class="stat-card stat-3">
+            <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
+            <div class="stat-value">32,951</div>
+            <div class="stat-label">Produits</div>
+        </div>
+        <div class="stat-card stat-4">
+            <div class="stat-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div class="stat-value">15.8M</div>
+            <div class="stat-label">Revenus (BRL)</div>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="section">
+    <h2 class="section-title">
+        <i class="fa-solid fa-cubes"></i> Ce que contient ce projet
+    </h2>
+    <p class="section-subtitle">
+        7 modules interconnectés couvrant tout le cycle de vie de la donnée, de l'ETL à l'IA.
+    </p>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon feature-blue">
+                <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <h3>Overview</h3>
+            <p>KPIs globaux : revenus, commandes, clients, panier moyen, tendances mensuelles.</p>
+            <a href="/" class="feature-link">Explorer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon feature-green">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3>Sales Analytics</h3>
+            <p>Top catégories, villes, méthodes de paiement, distribution des avis.</p>
+            <a href="/sales" class="feature-link">Explorer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon feature-purple">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <h3>Customer Segments</h3>
+            <p>Segmentation RFM + K-Means en 5 groupes : VIP, Loyal, New, At Risk, Lost.</p>
+            <a href="/segments" class="feature-link">Explorer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon feature-red">
+                <i class="fa-solid fa-user-slash"></i>
+            </div>
+            <h3>Churn Prediction</h3>
+            <p>Modèle XGBoost (ROC-AUC 0.89) pour identifier les clients à risque.</p>
+            <a href="/churn" class="feature-link">Explorer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon feature-orange">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <h3>Recommendations</h3>
+            <p>Moteur hybride (catégorie + popularité) avec Hit Rate de 88%.</p>
+            <a href="/recommendations" class="feature-link">Explorer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon feature-pink">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <h3>AI Assistant</h3>
+            <p>Chatbot LLM (Groq + gpt-oss-120b) qui répond en français, anglais, arabe.</p>
+            <a href="/assistant" class="feature-link">Essayer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon feature-gray">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <h3>Data Explorer</h3>
+            <p>Exploration interactive des 8 tables SQLite du projet.</p>
+            <a href="/explorer" class="feature-link">Explorer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- DATASET SECTION -->
+<section class="section">
+    <h2 class="section-title">
+        <i class="fa-solid fa-database"></i> Le dataset : Olist Brazilian E-Commerce
+    </h2>
+    <p class="section-subtitle">
+        Dataset public de <strong>100K+ commandes</strong> passées entre 2016 et 2018
+        sur la plus grande marketplace brésilienne.
+    </p>
+
+    <div class="dataset-grid">
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-users"></i>
+                <h3>customers</h3>
+            </div>
+            <p class="dataset-rows">99,441 lignes</p>
+            <p class="dataset-desc">Informations clients : ID, ville, état.</p>
+        </div>
+
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <h3>orders</h3>
+            </div>
+            <p class="dataset-rows">99,441 lignes</p>
+            <p class="dataset-desc">Commandes avec statut et timestamps.</p>
+        </div>
+
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-box"></i>
+                <h3>order_items</h3>
+            </div>
+            <p class="dataset-rows">112,650 lignes</p>
+            <p class="dataset-desc">Produits dans chaque commande.</p>
+        </div>
+
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-credit-card"></i>
+                <h3>payments</h3>
+            </div>
+            <p class="dataset-rows">103,886 lignes</p>
+            <p class="dataset-desc">Méthodes et valeurs de paiement.</p>
+        </div>
+
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-star"></i>
+                <h3>reviews</h3>
+            </div>
+            <p class="dataset-rows">99,224 lignes</p>
+            <p class="dataset-desc">Notes et commentaires clients.</p>
+        </div>
+
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-tag"></i>
+                <h3>products</h3>
+            </div>
+            <p class="dataset-rows">32,951 lignes</p>
+            <p class="dataset-desc">Catalogue produits et catégories.</p>
+        </div>
+
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-store"></i>
+                <h3>sellers</h3>
+            </div>
+            <p class="dataset-rows">3,095 lignes</p>
+            <p class="dataset-desc">Vendeurs de la marketplace.</p>
+        </div>
+
+        <div class="dataset-card">
+            <div class="dataset-header">
+                <i class="fa-solid fa-location-dot"></i>
+                <h3>geolocation</h3>
+            </div>
+            <p class="dataset-rows">1,000,163 lignes</p>
+            <p class="dataset-desc">Coordonnées GPS par code postal.</p>
+        </div>
+    </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section">
+    <h2 class="section-title">
+        <i class="fa-solid fa-code"></i> Stack Technique
+    </h2>
+    <p class="section-subtitle">
+        Des technologies modernes pour chaque étape du pipeline.
+    </p>
+
+    <div class="tech-grid">
+        <div class="tech-card">
+            <h4><i class="fa-solid fa-server"></i> Data Engineering</h4>
+            <div class="tech-tags">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Pandas</span>
+                <span class="tech-tag">SQLite</span>
+                <span class="tech-tag">ETL</span>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <h4><i class="fa-solid fa-brain"></i> Machine Learning</h4>
+            <div class="tech-tags">
+                <span class="tech-tag">Scikit-learn</span>
+                <span class="tech-tag">XGBoost</span>
+                <span class="tech-tag">K-Means</span>
+                <span class="tech-tag">RFM</span>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <h4><i class="fa-solid fa-robot"></i> GenAI / LLM</h4>
+            <div class="tech-tags">
+                <span class="tech-tag">Groq</span>
+                <span class="tech-tag">gpt-oss-120b</span>
+                <span class="tech-tag">LangChain</span>
+                <span class="tech-tag">NL→SQL</span>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <h4><i class="fa-solid fa-globe"></i> Web & API</h4>
+            <div class="tech-tags">
+                <span class="tech-tag">Flask</span>
+                <span class="tech-tag">Jinja2</span>
+                <span class="tech-tag">HTML/CSS</span>
+                <span class="tech-tag">Plotly.js</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section">
+    <h2 class="section-title">
+        <i class="fa-solid fa-sitemap"></i> Architecture du projet
+    </h2>
+    <div class="arch-diagram">
+        <div class="arch-step arch-step-1">
+            <i class="fa-solid fa-file-csv"></i>
+            <span>RAW DATA</span>
+        </div>
+        <i class="fa-solid fa-arrow-right arch-arrow"></i>
+        <div class="arch-step arch-step-2">
+            <i class="fa-solid fa-gears"></i>
+            <span>ETL</span>
+        </div>
+        <i class="fa-solid fa-arrow-right arch-arrow"></i>
+        <div class="arch-step arch-step-3">
+            <i class="fa-solid fa-database"></i>
+            <span>SQLite</span>
+        </div>
+        <i class="fa-solid fa-arrow-right arch-arrow"></i>
+        <div class="arch-step arch-step-4">
+            <i class="fa-solid fa-brain"></i>
+            <span>ML Models</span>
+        </div>
+        <i class="fa-solid fa-arrow-right arch-arrow"></i>
+        <div class="arch-step arch-step-5">
+            <i class="fa-solid fa-globe"></i>
+            <span>Flask Web</span>
+        </div>
+        <i class="fa-solid fa-arrow-right arch-arrow"></i>
+        <div class="arch-step arch-step-6">
+            <i class="fa-solid fa-robot"></i>
+            <span>AI Chat</span>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Prêt à explorer les données ?</h2>
+    <p>Commencez par le dashboard global ou posez directement une question à l'IA.</p>
+    <div class="cta-buttons">
+        <a href="/" class="btn btn-primary">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="/assistant" class="btn btn-secondary">
+            <i class="fa-solid fa-robot"></i> AI Assistant
+        </a>
+    </div>
+</section>
+
+{% endblock %}

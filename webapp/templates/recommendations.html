@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Recommendations — Smart E-Commerce{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fa-solid fa-wand-magic-sparkles"></i> Product Recommendations</h1>
+    <p class="subtitle">Hybrid recommendation engine (Category + Popularity)</p>
+</div>
+
+<div class="chart-card">
+    <h2><i class="fa-solid fa-bullseye"></i> Get Recommendations</h2>
+    <form method="get" class="lookup-form">
+        <input type="text" name="customer_id" placeholder="Enter customer ID"
+               value="{{ customer_id }}" required>
+        <input type="number" name="top_n" min="5" max="20" value="{{ top_n }}"
+               style="width:100px;" placeholder="Top N">
+        <button type="submit"><i class="fa-solid fa-wand-magic-sparkles"></i> Recommend</button>
+    </form>
+</div>
+
+{% if recos %}
+<div class="chart-card">
+    <h2>
+        {% if fallback %}
+            <i class="fa-solid fa-fire"></i> Fallback — Popular Products
+        {% else %}
+            <i class="fa-solid fa-list-ol"></i> Top {{ top_n }} Recommendations
+        {% endif %}
+    </h2>
+    <div class="table-scroll">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Product ID</th>
+                    {% if not fallback %}<th>Score</th>{% endif %}
+                    {% if fallback %}<th>Category</th><th>Customers</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in recos %}
+                <tr>
+                    <td>
+                        {% if loop.index == 1 %}<i class="fa-solid fa-medal" style="color:#fbbf24"></i>
+                        {% elif loop.index == 2 %}<i class="fa-solid fa-medal" style="color:#9ca3af"></i>
+                        {% elif loop.index == 3 %}<i class="fa-solid fa-medal" style="color:#b45309"></i>
+                        {% else %}{{ loop.index }}{% endif %}
+                    </td>
+                    <td class="mono">{{ r.product_id[:30] }}...</td>
+                    {% if not fallback %}<td>{{ "%.2f"|format(r.score) }}</td>{% endif %}
+                    {% if fallback %}
+                        <td>{{ r.category }}</td>
+                        <td>{{ r.n_customers }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% elif customer_id %}
+<div class="lookup-result error">
+    <i class="fa-solid fa-circle-xmark"></i> No recommendations found
+</div>
+{% endif %}
+
+<div class="chart-card">
+    <h2><i class="fa-solid fa-fire"></i> Top Popular Products</h2>
+    <div id="popularChart" style="height:400px;"></div>
+</div>
+
+<script>
+    const plotlyLayout = {
+        margin: { t: 20, l: 200, r: 20, b: 40 },
+        plot_bgcolor: "rgba(0,0,0,0)",
+        paper_bgcolor: "rgba(0,0,0,0)",
+        font: { family: "Inter, sans-serif" },
+    };
+
+    const popular = {{ popular | tojson }};
+    Plotly.newPlot("popularChart", [{
+        x: popular.map(p => p.n_customers),
+        y: popular.map(p => p.product_id.substring(0, 15) + "..."),
+        type: "bar", orientation: "h",
+        marker: {
+            color: popular.map(p => p.n_customers),
+            colorscale: [[0, "#dbeafe"], [0.5, "#60a5fa"], [1, "#1e40af"]],
+        }
+    }], plotlyLayout, { responsive: true });
+</script>
+{% endblock %}

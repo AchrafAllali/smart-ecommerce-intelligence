@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Explorer — Smart E-Commerce{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fa-solid fa-magnifying-glass"></i> Data Explorer</h1>
+    <p class="subtitle">Browse the SQLite database tables</p>
+</div>
+
+<div class="chart-card">
+    <form method="get" class="lookup-form">
+        <label class="form-label">
+            <i class="fa-solid fa-table"></i> Table:
+            <select name="table" onchange="this.form.submit()">
+                {% for t in tables %}
+                    <option value="{{ t }}" {% if t == selected %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label class="form-label">
+            <i class="fa-solid fa-list-ol"></i> Limit:
+            <input type="number" name="limit" min="10" max="1000" value="{{ limit }}">
+        </label>
+        <button type="submit"><i class="fa-solid fa-rotate"></i> Load</button>
+    </form>
+</div>
+
+{% if data %}
+<div class="chart-card">
+    <p class="info">
+        <i class="fa-solid fa-circle-info"></i>
+        Showing <strong>{{ data|length }}</strong> rows from <strong>{{ selected }}</strong>
+    </p>
+    <div class="table-scroll">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    {% for col in columns %}
+                        <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Segments — Smart E-Commerce{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fa-solid fa-users"></i> Customer Segments</h1>
+    <p class="subtitle">RFM Analysis + K-Means Clustering</p>
+</div>
+
+<div class="kpi-grid">
+    {% for s in segments %}
+    <div class="kpi-card kpi-segment-{{ loop.index }}">
+        <div class="kpi-icon">
+            {% if 'VIP' in s.segment %}<i class="fa-solid fa-crown"></i>
+            {% elif 'Loyal' in s.segment %}<i class="fa-solid fa-heart"></i>
+            {% elif 'New' in s.segment %}<i class="fa-solid fa-seedling"></i>
+            {% elif 'Risk' in s.segment %}<i class="fa-solid fa-triangle-exclamation"></i>
+            {% else %}<i class="fa-solid fa-user-xmark"></i>{% endif %}
+        </div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:,}".format(s.n_customers) }}</div>
+            <div class="kpi-label">{{ s.segment }}</div>
+            <div class="kpi-sublabel">{{ "{:.2f}".format(s.avg_monetary) }} BRL avg</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="grid-2">
+    <div class="chart-card">
+        <h2><i class="fa-solid fa-chart-pie"></i> Distribution</h2>
+        <div id="segPie" style="height:400px;"></div>
+    </div>
+    <div class="chart-card">
+        <h2><i class="fa-solid fa-coins"></i> Avg Monetary by Segment</h2>
+        <div id="segBar" style="height:400px;"></div>
+    </div>
+</div>
+
+<div class="chart-card">
+    <h2><i class="fa-solid fa-magnifying-glass"></i> Look up a Customer</h2>
+    <form method="get" class="lookup-form">
+        <input type="text" name="customer_id" placeholder="Enter customer ID"
+               value="{{ customer_id }}" required>
+        <button type="submit">
+            <i class="fa-solid fa-search"></i> Search
+        </button>
+    </form>
+
+    {% if lookup %}
+    <div class="lookup-result">
+        <p><i class="fa-solid fa-id-card"></i> <strong>Customer:</strong>
+            <span class="mono">{{ lookup.customer_unique_id }}</span></p>
+        <p><i class="fa-solid fa-tag"></i> <strong>Segment:</strong>
+            <span class="badge">{{ lookup.segment }}</span></p>
+        <p><i class="fa-solid fa-clock"></i> <strong>Recency:</strong>
+            {{ lookup.recency }} days</p>
+        <p><i class="fa-solid fa-repeat"></i> <strong>Frequency:</strong>
+            {{ lookup.frequency }}</p>
+        <p><i class="fa-solid fa-sack-dollar"></i> <strong>Monetary:</strong>
+            {{ "%.2f"|format(lookup.monetary) }} BRL</p>
+    </div>
+    {% elif customer_id %}
+    <div class="lookup-result error">
+        <i class="fa-solid fa-circle-xmark"></i> Customer not found
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const plotlyLayout = {
+        margin: { t: 20, l: 60, r: 20, b: 40 },
+        plot_bgcolor: "rgba(0,0,0,0)",
+        paper_bgcolor: "rgba(0,0,0,0)",
+        font: { family: "Inter, sans-serif" },
+    };
+
+    const segments = {{ segments | tojson }};
+    Plotly.newPlot("segPie", [{
+        labels: segments.map(s => s.segment),
+        values: segments.map(s => s.n_customers),
+        type: "pie", hole: 0.45,
+        marker: {
+            colors: ["#6366f1", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"],
+        }
+    }], { ...plotlyLayout, margin: { t: 20 } }, { responsive: true });
+
+    Plotly.newPlot("segBar", [{
+        x: segments.map(s => s.segment),
+        y: segments.map(s => s.avg_monetary),
+        type: "bar",
+        marker: {
+            color: segments.map(s => s.avg_monetary),
+            colorscale: [[0, "#c7d2fe"], [0.5, "#818cf8"], [1, "#4f46e5"]],
+        }
+    }], plotlyLayout, { responsive: true });
+</script>
+{% endblock %}

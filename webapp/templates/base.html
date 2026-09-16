@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart E-Commerce{% endblock %}</title>
+
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/home" class="nav-brand-link">
+        <div class="nav-brand">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Smart E-Commerce Intelligence</span>
+        </div>
+    </a>
+    <ul class="nav-links">
+        <li>
+            <a href="/home" class="{{ 'active' if active == 'home' else '' }}">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+        </li>
+        <li>
+            <a href="/" class="{{ 'active' if active == 'overview' else '' }}">
+                <i class="fa-solid fa-chart-pie"></i> Overview
+            </a>
+        </li>
+        <li>
+            <a href="/sales" class="{{ 'active' if active == 'sales' else '' }}">
+                <i class="fa-solid fa-chart-line"></i> Sales
+            </a>
+        </li>
+        <li>
+            <a href="/segments" class="{{ 'active' if active == 'segments' else '' }}">
+                <i class="fa-solid fa-users"></i> Segments
+            </a>
+        </li>
+        <li>
+            <a href="/churn" class="{{ 'active' if active == 'churn' else '' }}">
+                <i class="fa-solid fa-user-slash"></i> Churn
+            </a>
+        </li>
+        <li>
+            <a href="/recommendations" class="{{ 'active' if active == 'recommendations' else '' }}">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Recommendations
+            </a>
+        </li>
+        <li>
+            <a href="/assistant" class="{{ 'active' if active == 'assistant' else '' }}">
+                <i class="fa-solid fa-robot"></i> AI Assistant
+            </a>
+        </li>
+        <li>
+            <a href="/explorer" class="{{ 'active' if active == 'explorer' else '' }}">
+                <i class="fa-solid fa-magnifying-glass"></i> Explorer
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <i class="fa-solid fa-code"></i>
+    Smart E-Commerce Intelligence Platform © 2026 — Built with Flask, Pandas, Scikit-learn, XGBoost, Groq
+</footer>
+
+</body>
+</html>

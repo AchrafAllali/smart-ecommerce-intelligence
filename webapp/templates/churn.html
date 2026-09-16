@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Churn — Smart E-Commerce{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fa-solid fa-user-slash"></i> Churn Prediction</h1>
+    <p class="subtitle">XGBoost model — identify customers at risk of leaving</p>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card kpi-total">
+        <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:,}".format(stats.total) }}</div>
+            <div class="kpi-label">Total Customers</div>
+        </div>
+    </div>
+    <div class="kpi-card kpi-churn">
+        <div class="kpi-icon"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:,}".format(stats.churned) }}</div>
+            <div class="kpi-label">Churned</div>
+        </div>
+    </div>
+    <div class="kpi-card kpi-prob">
+        <div class="kpi-icon"><i class="fa-solid fa-percent"></i></div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:.4f}".format(stats.avg_prob) }}</div>
+            <div class="kpi-label">Avg Churn Probability</div>
+        </div>
+    </div>
+</div>
+
+<div class="chart-card">
+    <h2><i class="fa-solid fa-triangle-exclamation"></i> Top 20 Highest Churn Risk</h2>
+    <div class="table-scroll">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Recency</th>
+                    <th>Frequency</th>
+                    <th>Monetary</th>
+                    <th>Churn Prob</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in top_risk %}
+                <tr>
+                    <td class="mono">{{ row.customer_unique_id[:20] }}...</td>
+                    <td>{{ row.recency }}</td>
+                    <td>{{ row.frequency }}</td>
+                    <td>{{ "%.2f"|format(row.monetary) }}</td>
+                    <td><span class="badge danger">{{ "%.4f"|format(row.churn_probability) }}</span></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="chart-card">
+    <h2><i class="fa-solid fa-magnifying-glass"></i> Look up a Customer</h2>
+    <form method="get" class="lookup-form">
+        <input type="text" name="customer_id" placeholder="Enter customer ID"
+               value="{{ customer_id }}" required>
+        <button type="submit"><i class="fa-solid fa-search"></i> Search</button>
+    </form>
+
+    {% if lookup %}
+    <div class="lookup-result">
+        <p><i class="fa-solid fa-id-card"></i> <strong>Customer:</strong>
+            <span class="mono">{{ lookup.customer_unique_id }}</span></p>
+        {% set p = lookup.churn_probability %}
+        {% if p > 0.7 %}
+            <p><i class="fa-solid fa-circle-exclamation"></i> <strong>HIGH RISK</strong>
+               — Churn probability: <span class="badge danger">{{ "%.2%"|format(p) }}</span></p>
+        {% elif p > 0.4 %}
+            <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>MEDIUM RISK</strong>
+               — Churn probability: <span class="badge warning">{{ "%.2%"|format(p) }}</span></p>
+        {% else %}
+            <p><i class="fa-solid fa-circle-check"></i> <strong>LOW RISK</strong>
+               — Churn probability: <span class="badge success">{{ "%.2%"|format(p) }}</span></p>
+        {% endif %}
+    </div>
+    {% elif customer_id %}
+    <div class="lookup-result error">
+        <i class="fa-solid fa-circle-xmark"></i> Customer not found
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

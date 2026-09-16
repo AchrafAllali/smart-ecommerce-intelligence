@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Overview — Smart E-Commerce{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fa-solid fa-chart-pie"></i> Global KPIs</h1>
+    <p class="subtitle">Real-time overview of your e-commerce performance</p>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card kpi-revenue">
+        <div class="kpi-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:,.0f}".format(kpis.total_revenue) }}</div>
+            <div class="kpi-label">Total Revenue (BRL)</div>
+        </div>
+    </div>
+
+    <div class="kpi-card kpi-orders">
+        <div class="kpi-icon"><i class="fa-solid fa-box"></i></div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:,}".format(kpis.total_orders) }}</div>
+            <div class="kpi-label">Total Orders</div>
+        </div>
+    </div>
+
+    <div class="kpi-card kpi-customers">
+        <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:,}".format(kpis.total_customers) }}</div>
+            <div class="kpi-label">Total Customers</div>
+        </div>
+    </div>
+
+    <div class="kpi-card kpi-aov">
+        <div class="kpi-icon"><i class="fa-solid fa-cart-plus"></i></div>
+        <div class="kpi-content">
+            <div class="kpi-value">{{ "{:.2f}".format(kpis.avg_order_value) }}</div>
+            <div class="kpi-label">Avg Order Value</div>
+        </div>
+    </div>
+</div>
+
+<div class="chart-card">
+    <h2><i class="fa-solid fa-chart-column"></i> Monthly Revenue & Orders</h2>
+    <div id="monthlyChart" style="height:500px;"></div>
+</div>
+
+<script>
+    const monthly = {{ monthly | tojson }};
+    const months = monthly.map(d => d.year_month);
+    const revenue = monthly.map(d => d.revenue);
+    const orders = monthly.map(d => d.orders);
+
+    const trace1 = {
+        x: months, y: revenue,
+        name: "Revenue", type: "bar",
+        marker: {
+            color: revenue,
+            colorscale: [[0, "#c7d2fe"], [0.5, "#818cf8"], [1, "#4f46e5"]],
+        }
+    };
+    const trace2 = {
+        x: months, y: orders,
+        name: "Orders", type: "scatter",
+        mode: "lines+markers",
+        yaxis: "y2",
+        line: { color: "#f43f5e", width: 3 },
+        marker: { color: "#f43f5e", size: 8 },
+    };
+
+    const layout = {
+        yaxis: { title: "Revenue (BRL)", gridcolor: "#e5e7eb" },
+        yaxis2: { title: "Orders", overlaying: "y", side: "right" },
+        hovermode: "x unified",
+        margin: { t: 30, l: 60, r: 60, b: 60 },
+        plot_bgcolor: "rgba(0,0,0,0)",
+        paper_bgcolor: "rgba(0,0,0,0)",
+        font: { family: "Inter, sans-serif" },
+        legend: { orientation: "h", y: -0.15 },
+    };
+
+    Plotly.newPlot("monthlyChart", [trace1, trace2], layout, { responsive: true });
+</script>
+{% endblock %}

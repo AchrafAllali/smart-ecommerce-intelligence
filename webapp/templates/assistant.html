@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}AI Assistant — Smart E-Commerce{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fa-solid fa-robot"></i> AI Business Assistant</h1>
+    <p class="subtitle">Ask questions in natural language — powered by Groq (gpt-oss-120b) + SQL</p>
+</div>
+
+<div class="chat-container">
+    <div class="chat-messages" id="chatMessages">
+        <div class="chat-message assistant">
+            <div class="chat-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div class="chat-bubble">
+                <strong>Bonjour ! 👋</strong><br>
+                Je suis votre assistant IA. Posez-moi des questions
+                sur les données e-commerce (français, anglais, arabe).
+                <br><br>
+                <strong>Exemples :</strong>
+                <ul>
+                    <li>Quel est le chiffre d'affaires total ?</li>
+                    <li>Top 5 catégories par revenu</li>
+                    <li>Top 10 villes par ventes</li>
+                    <li>Combien de clients ont churné ?</li>
+                    <li>Quel est le panier moyen ?</li>
+                    <li>Méthodes de paiement</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <form class="chat-input-form" id="chatForm">
+        <input
+            type="text"
+            id="chatInput"
+            placeholder="Posez votre question..."
+            autocomplete="off"
+            required
+        >
+        <button type="submit" id="chatSubmit">
+            <i class="fa-solid fa-paper-plane"></i> Envoyer
+        </button>
+    </form>
+</div>
+
+<script>
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+const chatSubmit = document.getElementById("chatSubmit");
+const chatMessages = document.getElementById("chatMessages");
+
+/**
+ * Convert basic markdown to HTML.
+ * Handles: **bold**, `code`, line breaks, numbered/bullet lists.
+ */
+function formatMarkdown(text) {
+    let html = text;
+
+    // Escape HTML first (security)
+    html = html
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    // Bold: **text**
+    html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+
+    // Inline code: `text`
+    html = html.replace(/`([^`]+?)`/g, "<code>$1</code>");
+
+    // Numbered list: "1. xxx" → single line
+    html = html.replace(
+        /^(\d+)\.\s+(.+)$/gm,
+        "<div class='list-item'><span class='list-num'>$1.</span><span class='list-content'>$2</span></div>"
+    );
+
+    // Bullet list: "• xxx" or "- xxx"
+    html = html.replace(
+        /^[•\-]\s+(.+)$/gm,
+        "<div class='list-item'><span class='list-bullet'>•</span><span class='list-content'>$1</span></div>"
+    );
+
+    // Line breaks
+    html = html.replace(/\n/g, "<br>");
+
+    // Clean extra <br> after list items
+    html = html.replace(/(<\/div>)<br>/g, "$1");
+
+    return html;
+}
+
+function addMessage(text, role) {
+    const wrapper = document.createElement("div");
+    wrapper.className = `chat-message ${role}`;
+    const icon = role === "user" ? "fa-user" : "fa-robot";
+    wrapper.innerHTML = `
+        <div class="chat-avatar"><i class="fa-solid ${icon}"></i></div>
+        <div class="chat-bubble">${text}</div>
+    `;
+    chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addLoading() {
+    const id = "loading-" + Date.now();
+    const loading = document.createElement("div");
+    loading.id = id;
+    loading.className = "chat-message assistant";
+    loading.innerHTML = `
+        <div class="chat-avatar"><i class="fa-solid fa-robot"></i></div>
+        <div class="chat-bubble">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span style="margin-left:8px;">Thinking...</span>
+        </div>
+    `;
+    chatMessages.appendChild(loading);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return id;
+}
+
+chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const question = chatInput.value.trim();
+    if (!question) return;
+
+    addMessage(question, "user");
+    chatInput.value = "";
+    chatInput.disabled = true;
+    chatSubmit.disabled = true;
+
+    const loadingId = addLoading();
+
+    try {
+        const res = await fetch("/api/assistant", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question }),
+        });
+        const data = await res.json();
+        document.getElementById(loadingId).remove();
+        const formatted = formatMarkdown(data.answer);
+        addMessage(formatted, "assistant");
+    } catch (err) {
+        document.getElementById(loadingId).remove();
+        addMessage("❌ Erreur : " + err.message, "assistant");
+    } finally {
+        chatInput.disabled = false;
+        chatSubmit.disabled = false;
+        chatInput.focus();
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data (large)
+data/raw/*.csv
+data/processed/
+dashboard/*.png
+
+# Models (large)
+ml/models/*.pkl
+ml/models/*.npy
+
+# Database (rebuild with ETL)
+database/*.db
+database/*.sqlite
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MLflow
+mlruns/

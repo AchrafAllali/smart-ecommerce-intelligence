@@ -126,22 +126,23 @@ Raw Data → ETL → SQL Analytics → ML Models → REST API → Web UI → AI 
 ## 📸 Screenshots
 
 ### 🏠 Home Page
-![Home Page](docs/screenshots/home.png)
+<img width="1920" height="957" alt="image" src="https://github.com/user-attachments/assets/bbf0e340-ed55-4cae-84f3-8bfe9e766cea" />
 
 ### 📊 Dashboard Overview
-![Dashboard](docs/screenshots/dashboard.png)
+<img width="1920" height="962" alt="image" src="https://github.com/user-attachments/assets/51478eca-1f6c-499c-9c76-9dc6bfb72454" />
 
 ### 👥 Customer Segments
-![Segments](docs/screenshots/segments.png)
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/3370cb7c-a4ec-4c00-bbb2-62c350dbad7d" />
 
 ### 🔮 Churn Prediction
-![Churn](docs/screenshots/churn.png)
+<img width="1920" height="961" alt="image" src="https://github.com/user-attachments/assets/1f1eb7f9-520c-47f2-84c5-286f3569afc9" />
 
 ### 🤖 AI Assistant
-![AI Assistant](docs/screenshots/assistant.png)
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/71a4969b-39c6-474e-8a95-57a52c5d2aa3" />
 
 ### 📊 MLflow Tracking
-![MLflow](docs/screenshots/mlflow.png)
+<img width="1920" height="958" alt="image" src="https://github.com/user-attachments/assets/2b14dd68-6583-48bb-8b58-e22c1f1e0e76" />
+
 
 > 💡 Add your own screenshots in `docs/screenshots/`
 
@@ -484,11 +485,11 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ## 👤 Author
 
-**Your Name**
+**Achraf Allali**
 
-- 🐙 GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- 💼 LinkedIn: [Your Name](https://linkedin.com/in/YOUR_PROFILE)
-- 📧 Email: your.email@example.com
+- 🐙 GitHub: [https://github.com/AchrafAllali](https://github.com/AchrafAllali)
+- 💼 LinkedIn: [https://www.linkedin.com/in/achraf-allali-9889a0321/](https://www.linkedin.com/in/achraf-allali-9889a0321/)
+- 📧 Email: achrafallali2003@gmail.com
 
 ---
 
